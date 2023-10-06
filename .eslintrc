@@ -1,14 +1,16 @@
 {
-  "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
+  "parserOptions": {
+    "ecmaVersion": "latest", // Allows the use of modern ECMAScript features
+    "sourceType": "module" // Allows for the use of imports
+  },
+  "extends": ["plugin:@typescript-eslint/recommended"], // Uses the linting rules from @typescript-eslint/eslint-plugin
+  "env": {
+    "node": true // Enable Node.js global variables
+  },
   "rules": {
-    "indent": ["error", "tab"],
-    "quotes": ["error", "single"]
+    "no-console": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-unused-vars": "warn"
   }
 }

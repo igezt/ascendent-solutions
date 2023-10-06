@@ -1,8 +1,11 @@
-import express from 'express';
-import caseRouter from './routes/case';
+import { app } from './app';
+import http from 'http';
+import * as config from './utils/config';
+import logger from './utils/logger';
 
-const app = express();
+const server = http.createServer(app);
 
-app.use('/api/case', caseRouter);
-
-app.listen(8000);
+// Port uses 8000 as set in .env
+server.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`);
+});
