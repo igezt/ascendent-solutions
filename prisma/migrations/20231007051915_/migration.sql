@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `case` MODIFY `cid` INTEGER NULL,
+    MODIFY `eid` INTEGER NULL;

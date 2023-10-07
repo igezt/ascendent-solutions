@@ -6,6 +6,37 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Client {
+  cid Int @id @default(autoincrement())
+  name String
+  bday DateTime?
+  address String?
+  company String?
+  cases Case[]
+}
+
+model Case {
+  id Int @id @default(autoincrement())
+  status Status
+  creation_date DateTime @default(now())
+  request_message String
+  cid Int?
+  client Client? @relation(fields: [cid], references: [cid], onDelete: NoAction)
+  eid Int?
+  staff Staff? @relation(fields: [eid], references: [eid], onDelete: NoAction)
+}
+
+model Staff {
+  eid Int @id @default(autoincrement())
+  name String
+  cases Case[]
+}
+
+enum Status {
+  OUTSTANDING
+  COMPLETED
 }
