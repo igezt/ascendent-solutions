@@ -4,6 +4,15 @@ import {
   UpdateCaseSchema,
 } from '../validators/case-validators';
 
+/**
+ * Data Transfer Object (DTO) for creating a new case.
+ * It validates the data for creating a new case.
+ * @property status - The status of the case. Defaults to Status.OUTSTANDING if not provided.
+ * @property creation_date - The creation date of the case. Defaults to the current date if not provided.
+ * @property request_message - The request message of the case.
+ * @property cid - The ID of the client.
+ * @property eid - The ID of the employee.
+ */
 export class CreateCaseDto {
   status: Status;
   creation_date: Date;
@@ -21,6 +30,16 @@ export class CreateCaseDto {
   }
 }
 
+/**
+ * Data Transfer Object (DTO) for updating a case.
+ * It validates the data for updating a case.
+ * @property id - The ID of the case.
+ * @property status - The status of the case.
+ * @property creation_date - The creation date of the case.
+ * @property request_message - The request message of the case.
+ * @property cid - The ID of the client.
+ * @property eid - The ID of the employee.
+ */
 export class UpdateCaseDto {
   id: number;
   status: Status;

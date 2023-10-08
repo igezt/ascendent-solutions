@@ -9,36 +9,68 @@ export const caseRouter = Router();
 
 const controller = new CaseController();
 
-// GET /api/case/client/:clientId - Gets all cases raised by client of clientId
+/**
+ * GET /api/case/client/:clientId - Gets all cases raised by a client of clientId.
+ * @param clientId - The ID of the client.
+ */
 caseRouter.get('/client/:clientId', (req, res) =>
   controller.getByClient(req, res)
 );
-// GET /api/case/staff/:staffId - Gets all cases handled by a staff member with staffId
+
+/**
+ * GET /api/case/staff/:staffId - Gets all cases handled by a staff member with staffId.
+ * @param staffId - The ID of the staff member.
+ */
 caseRouter.get('/staff/:staffId', (req, res) =>
   controller.getByStaff(req, res)
 );
-// GET /api/case/completed - Gets all completed cases
+
+/**
+ * GET /api/case/completed - Gets all completed cases.
+ */
 caseRouter.get('/completed', (req, res) =>
   controller.getAllCompleted(req, res)
 );
-// GET /api/case/outstanding - Gets all completed cases
+
+/**
+ * GET /api/case/outstanding - Gets all outstanding cases.
+ */
 caseRouter.get('/outstanding', (req, res) =>
   controller.getAllOutstanding(req, res)
 );
-// POST /api/case - Creates a new case
+
+/**
+ * POST /api/case - Creates a new case.
+ * @body data - The data for the new case (request_message, status, client, staff, creation_date).
+ */
 caseRouter.post('/', validateCreateNewCase, (req, res) =>
   controller.createCase(req, res)
 );
-// UPDATE /api/case/:caseId - Updates the case with cid equals to caseId
+
+/**
+ * PUT /api/case/:caseId - Updates the case with cid equals to caseId.
+ * @param caseId - The ID of the case.
+ * @body data - The new data for the case (request_message, status, client, staff, creation_date).
+ */
 caseRouter.put('/:caseId', validateUpdateCase, (req, res) =>
   controller.updateCase(req, res)
 );
-// DELETE /api/case/:caseId - Deletes the case with cid equals to caseId
+
+/**
+ * DELETE /api/case/:caseId - Deletes the case with cid equals to caseId.
+ * @param caseId - The ID of the case.
+ */
 caseRouter.delete('/:caseId', validateUpdateCase, (req, res) =>
   controller.deleteCase(req, res)
 );
-// GET /api/case/:caseId - Gets the case with cid equals to caseId
+
+/**
+ * GET /api/case/:caseId - Gets the case with cid equals to caseId.
+ * @param caseId - The ID of the case.
+ */
 caseRouter.get('/:caseId', (req, res) => controller.getCaseByCaseId(req, res));
 
-// GET /api/case - Gets all the cases.
+/**
+ * GET /api/case - Gets all the cases.
+ */
 caseRouter.get('/', (req, res) => controller.getAllCases(req, res));
