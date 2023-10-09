@@ -434,6 +434,8 @@ The data for the new Client. It should include the following fields:
 
 Deletes the client with the provided clientId.
 
+**IMPORTANT** Note that when deleting a client, all linked cases will be deleted at the same time. Be mindful of what you delete.
+
 ##### Params
 
 clientId: The ID of the client to be deleted.
@@ -585,9 +587,11 @@ First off, **Cases** are in a **many-to-one** relationship between both **Client
 
 For Staff, it is rather trivial why cases may not have a staff attached to them. This is because when a case is created, it is not likely that a staff will already be working on the case.
 
-However, for Clients, it is not as simple. The reason why Cases are not deleted on cascade when a client is deleted, even though a case without a client doesn't make sense, is because it would be quite detrimental for a case's details to be destroyed if a client accidentally deletes their account etc.
+For Clients, it is not as simple. The reason why Cases are not deleted on cascade when a client is deleted, even though a case without a client doesn't make sense, is because it would be quite detrimental for a case's details to be destroyed if a client accidentally deletes their account etc.
 
-Hence, both the referenced client and staff are optional in a case. (Though a client is needed to create the case in the first place, because a newly-created case without a client doesn't make sense).
+However, on confirmation, I have verified that it should be cascade on delete for clients to case.
+
+Hence, both the referenced staff is optional in a case but clients are required to be linked at all times.
 
 ## Client Model Decisions
 

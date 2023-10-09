@@ -24,8 +24,8 @@ model Case {
   status Status
   creation_date DateTime @default(now())
   request_message String
-  cid Int?
-  client Client? @relation(fields: [cid], references: [cid], onDelete: NoAction)
+  cid Int
+  client Client @relation(fields: [cid], references: [cid], onDelete: Cascade)
   eid Int?
   staff Staff? @relation(fields: [eid], references: [eid], onDelete: NoAction)
 }
