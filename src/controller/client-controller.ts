@@ -28,7 +28,7 @@ export class ClientController {
       const newClient = await this.clientService.createClient(
         createNewCasteDto
       );
-      return res.status(201).json(newClient);
+      return res.status(201).json({ client: newClient });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
@@ -48,10 +48,10 @@ export class ClientController {
     const clientIdToDelete = Number(req.params.clientId);
 
     try {
-      const deletedCase = await this.clientService.deleteClient({
+      const deletedClient = await this.clientService.deleteClient({
         cid: clientIdToDelete,
       });
-      return res.status(201).json(deletedCase);
+      return res.status(201).json({ client: deletedClient });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
@@ -89,14 +89,15 @@ export class ClientController {
   public async updateClient(req: Request, res: Response) {
     const clientParams: UpdateClientSchema = req.body;
     const updateClientDto = new UpdateClientDto(
-      Number(req.params.caseId),
+      Number(req.params.clientId),
       clientParams
     );
 
     try {
-      const newCase = await this.clientService.updateClient(updateClientDto);
-      return res.status(201).json(newCase);
+      const newClient = await this.clientService.updateClient(updateClientDto);
+      return res.status(201).json({ client: newClient });
     } catch (e) {
+      console.log(e);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -114,7 +115,7 @@ export class ClientController {
   public async getAllClient(req: Request, res: Response) {
     try {
       const allClients = await this.clientService.getManyClient({});
-      return res.status(200).json({ client: allClients });
+      return res.status(200).json({ clients: allClients });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });

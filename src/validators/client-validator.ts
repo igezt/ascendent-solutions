@@ -31,14 +31,12 @@ export const validateCreateNewClient = createValidator(createNewClientRules);
 
 /**
  * Joi schema for updating a client.
- * @property cid - The ID of the client.
  * @property name - The name of the client.
  * @property bday - The birthday of the client.
  * @property address - The address of the client.
  * @property company - The company of the client.
  */
 const updateClientRules = Joi.object({
-  cid: Joi.number().positive().required(),
   name: Joi.string(),
   bday: Joi.date(),
   address: Joi.string(),

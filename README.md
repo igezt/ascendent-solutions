@@ -120,6 +120,43 @@ Gets all cases raised by a client of clientId.
 
 clientId (URL Parameter): The ID of the client.
 
+##### Example API Call
+
+> curl -X GET http://localhost:8000/api/case/client/1
+
+##### Example API Response
+
+```json
+{
+  "cases": [
+    {
+      "id": 26,
+      "status": "COMPLETED",
+      "creation_date": "2023-10-04T08:00:00.000Z",
+      "request_message": "I need help with alskdjalksjaslkdj",
+      "cid": 1,
+      "eid": 2
+    },
+    {
+      "id": 29,
+      "status": "OUTSTANDING",
+      "creation_date": "2023-10-07T05:23:10.871Z",
+      "request_message": "I need help with...",
+      "cid": 1,
+      "eid": null
+    },
+    {
+      "id": 30,
+      "status": "OUTSTANDING",
+      "creation_date": "2023-10-07T08:18:53.828Z",
+      "request_message": "I need help with...",
+      "cid": 1,
+      "eid": null
+    }
+  ]
+}
+```
+
 <br>
 
 #### GET /api/case/staff/:staffId
@@ -132,6 +169,33 @@ Gets all cases handled by a staff member with staffId.
 
 staffId (URL Parameter): The ID of the staff member.
 
+##### Example API Call
+
+> curl -X GET http://localhost:8000/api/case/staff/3
+
+##### Example API Response
+
+```json
+{
+  "cases": [
+    {
+      "id": 1,
+      "cid": 2,
+      "eid": 3,
+      "status": "COMPLETED",
+      "creation_date": "2022-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "cid": 3,
+      "eid": 3,
+      "status": "OUTSTANDING",
+      "creation_date": "2022-01-02T00:00:00.000Z"
+    }
+  ]
+}
+```
+
 <br>
 
 #### GET /api/case/completed
@@ -140,6 +204,35 @@ staffId (URL Parameter): The ID of the staff member.
 
 Gets all completed cases.
 
+##### Example API Call
+
+> curl -X GET http://localhost:8000/api/case/completed
+
+##### Example API Response
+
+```json
+{
+  "cases": [
+    {
+      "id": 26,
+      "status": "COMPLETED",
+      "creation_date": "2023-10-04T08:00:00.000Z",
+      "request_message": "I need help with alskdjalksjaslkdj",
+      "cid": 1,
+      "eid": 2
+    },
+    {
+      "id": 27,
+      "status": "COMPLETED",
+      "creation_date": "2023-10-04T08:00:00.000Z",
+      "request_message": "I need help with alskdjalksjaslkdj",
+      "cid": 2,
+      "eid": 1
+    }
+  ]
+}
+```
+
 <br>
 
 #### GET /api/case/outstanding
@@ -147,6 +240,35 @@ Gets all completed cases.
 ##### Description
 
 Gets all outstanding cases.
+
+##### Example API Call
+
+> curl -X POST http://localhost:8000/api/case/outstanding
+
+##### Example API Response
+
+```json
+{
+  "cases": [
+    {
+      "id": 29,
+      "status": "OUTSTANDING",
+      "creation_date": "2023-10-07T05:23:10.871Z",
+      "request_message": "I need help with...",
+      "cid": 1,
+      "eid": null
+    },
+    {
+      "id": 30,
+      "status": "OUTSTANDING",
+      "creation_date": "2023-10-07T08:18:53.828Z",
+      "request_message": "I need help with...",
+      "cid": 1,
+      "eid": null
+    }
+  ]
+}
+```
 
 <br>
 
@@ -167,6 +289,37 @@ The data for the new case. It should include the following fields:
 | cid             | The client's unique id                                                                          | Positive integer                                                                       |
 | eid             | The staff's unique id                                                                           | Positive integer                                                                       |
 | creation_date   | The date when the case was created                                                              | Refer to the [Date](#specific-information) section about how to format the date string |
+
+##### Example API Call
+
+> curl -X POST http://localhost:8000/api/case/
+
+```json
+{
+  "cid": 1,
+  "eid": 2,
+  "status": "COMPLETED",
+  "request_message": "I need help with...",
+  "creation_date": "2023-10-07T12:12:12Z"
+}
+```
+
+##### Example API Response
+
+```json
+{
+  "case": {
+    "id": 36,
+    "status": "COMPLETED",
+    "creation_date": "2023-10-07T12:12:12.000Z",
+    "request_message": "I need help with...",
+    "cid": 1,
+    "eid": 2
+  }
+}
+```
+
+<br>
 
 <br>
 
@@ -191,6 +344,35 @@ The new data for the case. It should include the following fields:
 | cid             | The client's unique id                                                                          | Positive integer                                                                       |
 | eid             | The staff's unique id                                                                           | Positive integer                                                                       |
 | creation_date   | The date when the case was created                                                              | Refer to the [Date](#specific-information) section about how to format the date string |
+
+##### Example API Call
+
+> curl -X PUT http://localhost:8000/api/case/2
+
+```json
+{
+  "cid": 2,
+  "eid": 1,
+  "request_message": "I need help with alskdjalksjaslkdj",
+  "creation_date": "2023-10-04T08:00:00.000Z",
+  "status": "COMPLETED"
+}
+```
+
+##### Example API Response
+
+```json
+{
+  "case": {
+    "id": 28,
+    "status": "COMPLETED",
+    "creation_date": "2023-10-04T08:00:00.000Z",
+    "request_message": "I need help with alskdjalksjaslkdj",
+    "cid": 2,
+    "eid": 1
+  }
+}
+```
 
 <br>
 
@@ -217,6 +399,33 @@ The data for the new Client. It should include the following fields:
 | birthday | Birthday of the client.                  | Refer to the [Date](#specific-information) section about how to format the date string |
 | company  | Company that the client belongs to       | String                                                                                 |
 
+#### Example API Call
+
+> curl -X POST http://localhost:8000/api/client/
+
+```json
+{
+  "name": "Charles Barkley",
+  "bday": "2023-09-08T08:00:00.100Z",
+  "address": "ASLKDJ",
+  "company": "HELLO"
+}
+```
+
+##### Example API Response
+
+```json
+{
+  "client": {
+    "cid": 7,
+    "name": "Charles Barkley",
+    "bday": "2023-09-08T08:00:00.100Z",
+    "address": "ASLKDJ",
+    "company": "HELLO"
+  }
+}
+```
+
 <br>
 
 #### DELETE /api/client/:clientId
@@ -233,6 +442,24 @@ clientId: The ID of the client to be deleted.
 
 Returns the deleted client if successful. Else returns a err message stored in res.err.
 
+##### Example API Call
+
+> curl -X DELETE http://localhost:8000/api/case/7
+
+##### Example API Response
+
+```json
+{
+  "client": {
+    "cid": 7,
+    "name": "Charles Barkley",
+    "bday": "2023-09-08T08:00:00.100Z",
+    "address": "ASLKDJ",
+    "company": "HELLO"
+  }
+}
+```
+
 <br>
 
 #### GET /api/client/:clientId
@@ -244,6 +471,25 @@ Gets the information about a client with the provided clientId.
 ##### Params
 
 clientId: The ID of the client to retrieve information.
+
+##### Example API Call
+
+> curl -X GET http://localhost:8000/api/case/6
+
+##### Example API Response
+
+```json
+{
+  "client": {
+    "cid": 6,
+    "name": "Charles Barkley",
+    "bday": "2023-09-08T08:00:00.100Z",
+    "address": "ASLKDJ",
+    "company": "HELLO",
+    "age": 0
+  }
+}
+```
 
 <br>
 
@@ -266,6 +512,33 @@ clientId: The ID of the client to update.
 | birthday | Birthday of the client.                  | Refer to the [Date](#specific-information) section about how to format the date string |
 | company  | Company that the client belongs to       | String                                                                                 |
 
+##### Example API Call
+
+> curl -X PUT http://localhost:8000/api/case/5
+
+```json
+{
+  "name": "Charles Barkley",
+  "bday": "2023-09-08T08:00:00.100Z",
+  "address": "ASLKDJ",
+  "company": "HELLO"
+}
+```
+
+##### Example API Response
+
+```json
+{
+  "client": {
+    "cid": 5,
+    "name": "Charles Barkley",
+    "bday": "2023-09-08T08:00:00.100Z",
+    "address": "ASLKDJ",
+    "company": "HELLO"
+  }
+}
+```
+
 <br>
 
 #### GET /api/client
@@ -286,15 +559,15 @@ Returns an array of all client objects.
 
 For the sake of cohesiveness, all dates (regardless if they use date etc) are taken in as datestrings with the same format:
 
-> {YYY-MM-DD}T{HH:mm:SS}.{sss}Z
+> {YYYY-MM-DD}T{HH:mm:SS}.{sss}Z
 
 I recommend following this format, but the APIs do allow for other formats that are accepted by Typescript's Date object.
 
 ### Examples
 
-All API's have an example call writen in the examples directory in the root directory of the repository.
+All API's have an example call writen in the example API call section of their respective documentation.
 
-I recommend using a API testing service like Postman to send API calls to the server and observe the results on your own.
+I recommend using an API testing service like Postman to send API calls to the server and observe the results on your own.
 
 # Database design
 
@@ -396,3 +669,7 @@ I did have the urge to group them based on what they were interfacing with, i.e.
 # Conclusion
 
 This was a fun project that tested my understanding of backend servers and how to build a proper API. All in all, I enjoyed every moment I worked on it. A lesson I learnt was that its ok to repeat myself sometimes (Talking about DRY) because certain functionalities may look similar now, but they may not be the same later on.
+
+```
+
+```

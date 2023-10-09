@@ -113,7 +113,7 @@ export class CaseController {
 
     try {
       const newCase = await this.caseService.createNewCase(createNewCasteDto);
-      return res.status(201).json(newCase);
+      return res.status(201).json({ case: newCase });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
@@ -138,7 +138,7 @@ export class CaseController {
 
     try {
       const newCase = await this.caseService.updateCase(createNewCasteDto);
-      return res.status(201).json(newCase);
+      return res.status(201).json({ case: newCase });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
@@ -160,7 +160,7 @@ export class CaseController {
       const deletedCase = await this.caseService.deleteCase({
         id: caseIdToDelete,
       });
-      return res.status(200).json(deletedCase);
+      return res.status(200).json({ case: deletedCase });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
@@ -203,7 +203,7 @@ export class CaseController {
   public async getAllCases(req: Request, res: Response) {
     try {
       const allCases = await this.caseService.getManyCases({});
-      return res.status(200).json({ case: allCases });
+      return res.status(200).json({ cases: allCases });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
