@@ -23,3 +23,7 @@ app.use('/', loggerMiddleware);
 
 app.use('/api/case', caseRouter);
 app.use('/api/client', clientRouter);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.status(400).json({ err: 'Endpoint not found.' });
+});
