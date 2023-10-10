@@ -6,6 +6,7 @@ import {
   CreateNewCaseSchema,
   UpdateCaseSchema,
 } from '../validators/case-validators';
+import logger from '../utils/logger';
 
 export class CaseController {
   private caseService: CaseService;
@@ -27,7 +28,8 @@ export class CaseController {
         cid: clientId,
       });
       return res.json({ cases: casesWithClientId });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -49,7 +51,8 @@ export class CaseController {
         eid: staffId,
       });
       return res.json({ cases: casesWithStaffId });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -71,7 +74,8 @@ export class CaseController {
       });
 
       return res.status(200).json({ cases: allCompletedCases });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -92,7 +96,8 @@ export class CaseController {
         status: Status.OUTSTANDING,
       });
       return res.status(200).json({ cases: allOutstandingCases });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -114,7 +119,8 @@ export class CaseController {
     try {
       const newCase = await this.caseService.createNewCase(createNewCasteDto);
       return res.status(201).json({ case: newCase });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -139,7 +145,8 @@ export class CaseController {
     try {
       const newCase = await this.caseService.updateCase(createNewCasteDto);
       return res.status(201).json({ case: newCase });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -161,11 +168,11 @@ export class CaseController {
         id: caseIdToDelete,
       });
       return res.status(200).json({ case: deletedCase });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
-        console.log(e);
         return res.status(500).json({ err: 'Something went wrong' });
       }
     }
@@ -185,7 +192,8 @@ export class CaseController {
       });
 
       return res.status(200).json({ case: caseWithCaseId });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -204,7 +212,8 @@ export class CaseController {
     try {
       const allCases = await this.caseService.getManyCases({});
       return res.status(200).json({ cases: allCases });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {

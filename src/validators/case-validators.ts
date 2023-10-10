@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import * as joi from '@hapi/joi';
 import 'joi-extract-type';
-import { createValidator } from './create-validator';
+import { createBodyValidator, createParamValidator } from './create-validator';
 import { Status } from '@prisma/client';
 
 /**
@@ -29,7 +29,7 @@ export type CreateNewCaseSchema = joi.extractType<typeof createNewCaseRules>;
  * Validator middleware for creating a new case.
  * Uses the createNewCaseRules schema.
  */
-export const validateCreateNewCase = createValidator(createNewCaseRules);
+export const validateCreateNewCase = createBodyValidator(createNewCaseRules);
 
 /**
  * Joi schema for updating a case.
@@ -57,4 +57,4 @@ export type UpdateCaseSchema = joi.extractType<typeof updateCaseRules>;
  * Validator middleware for updating a case.
  * Uses the updateCaseRules schema.
  */
-export const validateUpdateCase = createValidator(updateCaseRules);
+export const validateUpdateCase = createBodyValidator(updateCaseRules);

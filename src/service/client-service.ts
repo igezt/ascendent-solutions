@@ -22,7 +22,6 @@ export class ClientService {
    * @returns The newly created client.
    */
   public async createClient(data: CreateClientDto) {
-    console.log(data);
     const newClient = await this.clientPrisma.create({
       data: {
         name: data.name,

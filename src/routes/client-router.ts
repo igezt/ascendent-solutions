@@ -4,6 +4,7 @@ import {
   validateCreateNewClient,
   validateUpdateClient,
 } from '../validators/client-validator';
+import { validateClientIdParam } from '../validators/common-validators';
 
 export const clientRouter = Router();
 const controller = new ClientController();
@@ -20,7 +21,7 @@ clientRouter.post('/', validateCreateNewClient, (req, res) =>
  * DELETE /api/client/:clientId - Deletes the client with clientId.
  * @param clientId - The ID of the client.
  */
-clientRouter.delete('/:clientId', (req, res) =>
+clientRouter.delete('/:clientId', validateClientIdParam, (req, res) =>
   controller.deleteClient(req, res)
 );
 
@@ -28,15 +29,20 @@ clientRouter.delete('/:clientId', (req, res) =>
  * GET /api/client/:clientId - Gets the information about a client with clientId.
  * @param clientId - The ID of the client.
  */
-clientRouter.get('/:clientId', (req, res) => controller.getClient(req, res));
+clientRouter.get('/:clientId', validateClientIdParam, (req, res) =>
+  controller.getClient(req, res)
+);
 
 /**
  * PUT /api/client/:clientId - Updates the information about a client with clientId.
  * @param clientId - The ID of the client.
  * @body data - The new data for the client (name, address, birthday, company).
  */
-clientRouter.put('/:clientId', validateUpdateClient, (req, res) =>
-  controller.updateClient(req, res)
+clientRouter.put(
+  '/:clientId',
+  validateClientIdParam,
+  validateUpdateClient,
+  (req, res) => controller.updateClient(req, res)
 );
 
 /**

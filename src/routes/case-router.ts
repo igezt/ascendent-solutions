@@ -4,6 +4,11 @@ import {
   validateCreateNewCase,
   validateUpdateCase,
 } from '../validators/case-validators';
+import {
+  validateCaseIdParam,
+  validateClientIdParam,
+  validateStaffIdParam,
+} from '../validators/common-validators';
 
 export const caseRouter = Router();
 
@@ -13,7 +18,7 @@ const controller = new CaseController();
  * GET /api/case/client/:clientId - Gets all cases raised by a client of clientId.
  * @param clientId - The ID of the client.
  */
-caseRouter.get('/client/:clientId', (req, res) =>
+caseRouter.get('/client/:clientId', validateClientIdParam, (req, res) =>
   controller.getByClient(req, res)
 );
 
@@ -21,7 +26,7 @@ caseRouter.get('/client/:clientId', (req, res) =>
  * GET /api/case/staff/:staffId - Gets all cases handled by a staff member with staffId.
  * @param staffId - The ID of the staff member.
  */
-caseRouter.get('/staff/:staffId', (req, res) =>
+caseRouter.get('/staff/:staffId', validateStaffIdParam, (req, res) =>
   controller.getByStaff(req, res)
 );
 
@@ -52,15 +57,18 @@ caseRouter.post('/', validateCreateNewCase, (req, res) =>
  * @param caseId - The ID of the case.
  * @body data - The new data for the case (request_message, status, client, staff, creation_date).
  */
-caseRouter.put('/:caseId', validateUpdateCase, (req, res) =>
-  controller.updateCase(req, res)
+caseRouter.put(
+  '/:caseId',
+  validateCaseIdParam,
+  validateUpdateCase,
+  (req, res) => controller.updateCase(req, res)
 );
 
 /**
  * DELETE /api/case/:caseId - Deletes the case with cid equals to caseId.
  * @param caseId - The ID of the case.
  */
-caseRouter.delete('/:caseId', validateUpdateCase, (req, res) =>
+caseRouter.delete('/:caseId', validateCaseIdParam, (req, res) =>
   controller.deleteCase(req, res)
 );
 
@@ -68,7 +76,9 @@ caseRouter.delete('/:caseId', validateUpdateCase, (req, res) =>
  * GET /api/case/:caseId - Gets the case with cid equals to caseId.
  * @param caseId - The ID of the case.
  */
-caseRouter.get('/:caseId', (req, res) => controller.getCaseByCaseId(req, res));
+caseRouter.get('/:caseId', validateCaseIdParam, (req, res) =>
+  controller.getCaseByCaseId(req, res)
+);
 
 /**
  * GET /api/case - Gets all the cases.

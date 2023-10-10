@@ -6,6 +6,7 @@ import {
 } from '../validators/client-validator';
 import { CreateClientDto, UpdateClientDto } from '../dtos/client.dto';
 import { Prisma } from '@prisma/client';
+import logger from '../utils/logger';
 
 export class ClientController {
   private clientService: ClientService;
@@ -29,7 +30,8 @@ export class ClientController {
         createNewCasteDto
       );
       return res.status(201).json({ client: newClient });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -52,7 +54,8 @@ export class ClientController {
         cid: clientIdToDelete,
       });
       return res.status(201).json({ client: deletedClient });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -70,7 +73,7 @@ export class ClientController {
   public async getClient(req: Request, res: Response) {
     const clientIdToGet = Number(req.params.clientId);
     const client = await this.clientService.getClient({ cid: clientIdToGet });
-    if (!client) {
+    if (JSON.stringify(client) == '{}') {
       return res.status(404).json({
         err: 'No client with that clientId has been found',
       });
@@ -96,8 +99,8 @@ export class ClientController {
     try {
       const newClient = await this.clientService.updateClient(updateClientDto);
       return res.status(201).json({ client: newClient });
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {
@@ -116,7 +119,8 @@ export class ClientController {
     try {
       const allClients = await this.clientService.getManyClient({});
       return res.status(200).json({ clients: allClients });
-    } catch (e) {
+    } catch (e: any) {
+      logger.error(e.message);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         return res.status(400).json({ err: e.meta?.cause ?? e.message });
       } else {

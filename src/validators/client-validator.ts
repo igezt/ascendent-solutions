@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import * as joi from '@hapi/joi';
 import 'joi-extract-type';
-import { createValidator } from './create-validator';
+import { createBodyValidator } from './create-validator';
 
 /**
  * Joi schema for creating a new client.
@@ -27,7 +27,8 @@ export type CreateClientSchema = joi.extractType<typeof createNewClientRules>;
  * Validator middleware for creating a new client.
  * Uses the createNewClientRules schema.
  */
-export const validateCreateNewClient = createValidator(createNewClientRules);
+export const validateCreateNewClient =
+  createBodyValidator(createNewClientRules);
 
 /**
  * Joi schema for updating a client.
@@ -53,4 +54,4 @@ export type UpdateClientSchema = joi.extractType<typeof updateClientRules>;
  * Validator middleware for updating a client.
  * Uses the updateClientRules schema.
  */
-export const validateUpdateClient = createValidator(updateClientRules);
+export const validateUpdateClient = createBodyValidator(updateClientRules);
